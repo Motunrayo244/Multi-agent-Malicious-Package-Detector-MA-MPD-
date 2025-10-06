@@ -1,0 +1,12 @@
+services:
+  api:
+    build: .
+    container_name: mampdservice
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env 
+    volumes:
+      - .:/app
+    restart: always
+

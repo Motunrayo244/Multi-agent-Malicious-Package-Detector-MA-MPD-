@@ -1,0 +1,8 @@
+logs/*
+.temp
+.venv
+.venv/
+*.pyc
+*.pyo
+__pycache__/
+*temp/*
