@@ -1,15 +1,15 @@
 import logging
 from agents import Agent, ModelSettings,Runner
-from classificationService.classificationUtilities.tools import (extract_package_info, 
+from src.utilities.tools import (extract_package_info, 
                                                                  extract_package_file_info, 
                                                             )
 from src.utilities.package_state import MASState
 from src.utilities.prompts import METADATA_PROMPT
 from src.utilities.schemas import MetadataAgentOutput
-from src.agents.classificationAgentsInterface import ClassificationAgentsInterface
+from src.mampd_agents.mampd_agent_interface import MAMPDAgentInterface
 from typing import Optional
 
-class MetaDataAgent(ClassificationAgentsInterface):
+class MetaDataAgent(MAMPDAgentInterface):
      def __init__(self, 
                 state: MASState= MASState(),
                 model_name: Optional[str] = None,

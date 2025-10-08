@@ -1,8 +1,56 @@
-logs/*
-.temp
+# Git files
+.git
+.gitignore
+.gitattributes
+
+# Python cache
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
 .venv
-.venv/
-*.pyc
-*.pyo
-__pycache__/
-*temp/*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Documentation
+*.md
+!README.md
+
+# Docker files (don't need these inside the container)
+Dockerfile*
+docker-compose*.yml
+
+# Logs (will be mounted as volume)
+logs/
+*.log
+
+# Temp files
+*.tmp
+.MAMPD_temp/
+
+# Old files
+*_old
+config\ copy.ini
+
+# Test files
+tests/
+.pytest_cache/
+
+# CI/CD
+.github/
+.gitlab-ci.yml

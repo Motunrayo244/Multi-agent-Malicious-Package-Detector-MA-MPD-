@@ -1,13 +1,13 @@
 from typing import Any,Optional
-from src.agents.MetaDataAgent import MetaDataAgent
-from src.agents.ClassificationAgent import ClassificationAgent
-from src.agents.RootAgent import RootAgent
-from src.agents.classificationAgentsInterface import ClassificationAgentsInterface
+from src.mampd_agents.MetaDataAgent import MetaDataAgent
+from src.mampd_agents.ClassificationAgent import ClassificationAgent
+from src.mampd_agents.RootAgent import RootAgent
+from src.mampd_agents.mampd_agent_interface import MAMPDAgentInterface
 
 
 
 
-class ClassifyPackagesAgents(ClassificationAgentsInterface):
+class MAMPDAgents(MAMPDAgentInterface):
     def __init__(self, model_name: Optional[str] = None, api_key: Optional[str] = None,
                  model_url: Optional[str] = None):
         """Initializes the moderator agents with the specified model."""
@@ -25,7 +25,12 @@ class ClassifyPackagesAgents(ClassificationAgentsInterface):
     def set_classify_packages_agents(self, root_agent: Optional[RootAgent] = None,
                                      metadata_agent: Optional[ClassificationAgent] = None,
                                      classification_agent: Optional[ClassificationAgent] = None):
-        """Sets the agents to the provided instances."""
+        """Sets the agents to the provided instances.
+        Args:
+            root_agent: The root agent instance.
+            metadata_agent: The metadata agent instance.
+            classification_agent: The classification agent instance.
+        """
         if root_agent:
             self.root_agent = root_agent 
         if metadata_agent:
@@ -36,7 +41,10 @@ class ClassifyPackagesAgents(ClassificationAgentsInterface):
             
             
     def get_agents(self) -> dict[str, Any]:
-        """Returns a dictionary of the classification agents."""
+        """
+        Returns:
+            dict[str, Any]: A dictionary of the MAMPD agents.
+        """
         return {
             "root_agent": self.root_agent,
             "metadata_agent": self.metadata_agent,
@@ -46,7 +54,12 @@ class ClassifyPackagesAgents(ClassificationAgentsInterface):
 
     def set_root_agent(self, model_name: Optional[str] = None, api_key: Optional[str] = None,
                             model_url: Optional[str] = None):
-        """Sets the root agent with a new instance."""
+        """Sets the root agent with a new instance.
+        Args:
+            model_name: The model name.
+            api_key: The API key. if not provided, the default API key for model provider will be used.
+            model_url: The model URL. if not provided, the default model URL for model provider will be used.
+        """
         self.root_agent = RootAgent(
             model_name=model_name if model_name is not None else self.model_name,  # type: ignore
             api_key=api_key if api_key is not None else self.api_key,

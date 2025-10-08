@@ -23,18 +23,15 @@ load_dotenv()
 parser = configparser.ConfigParser()
 parser.read("config.ini")  # Ensure your config file is loaded
 
-BASE_MODEL_URL = parser.get("MODEL_CONFIG", "MASMPD_BASE_URL", fallback="")
 BASE_MODEL_NAME = parser.get("MODEL_CONFIG", "MASMPD_BASE_MODEL", fallback="gpt-4o-mini")
 BASE_API_KEY = os.getenv("MODEL_API_KEY", "")
-
 class MASModel():
     def __init__(self, 
                  model_name: str = BASE_MODEL_NAME, 
-                 model_url: Optional[str] = BASE_MODEL_URL,
-                 api_key: Optional[str] = BASE_API_KEY,
+                 api_key: str = BASE_API_KEY,
                  disable_tracing: bool = False):
 
-        if not model_name or not model_url or not api_key:
+        if not model_name or not api_key:
             logger.error(
                 "Model initialization failed: model_name, model_url, and api_key must be provided."
             )
@@ -44,11 +41,8 @@ class MASModel():
 
         self.model_name = model_name
         try:
-            # if model_name.startswith('huggingface/tgi'):
-            self.model = LitellmModel(model=self.model_name)   
-                         
-            # else:
-            #     self.model = LitellmModel(model=self.model_name)
+            self.model = LitellmModel(model=self.model_name, api_key=api_key)
+             
                 
         except (BadRequestError, NotFoundError, Timeout) as e:
             logger.error(f"Failed to initialize model {self.model_name}: {e}")
@@ -56,13 +50,17 @@ class MASModel():
         set_tracing_disabled(disabled=disable_tracing)
 
     def get_model(self):
-
-       return self.model
+        """get model"""
+        
+        return self.model
 
     def disable_tracing(self):
+        """Disable teacing"""
         set_tracing_disabled(disabled=True)
         logger.info("Tracing has been disabled for the model.")
+        
     def enable_tracing(self):   
         set_tracing_disabled(disabled=False)
         logger.info("Tracing has been enabled for the model.")
+        
         

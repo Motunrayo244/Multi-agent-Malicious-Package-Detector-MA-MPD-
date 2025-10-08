@@ -4,10 +4,10 @@ from src.utilities.tools import unpack_archive, unpack_folder, is_archieve
 from src.utilities.package_state import MASState
 from src.utilities.prompts import SUPERVISOR_PROMPT
 from src.utilities.schemas import RootAgentOutput
-from src.agents.classificationAgentsInterface import ClassificationAgentsInterface
+from src.mampd_agents.mampd_agent_interface import MAMPDAgentInterface
 from typing import List, Any, Optional
 
-class RootAgent(ClassificationAgentsInterface):
+class RootAgent(MAMPDAgentInterface):
     def __init__(self, 
                 state: MASState= MASState(),
                 model_name: Optional[str] = None,

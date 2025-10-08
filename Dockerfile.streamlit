@@ -1,0 +1,31 @@
+# Use Python 3.11 slim as base image
+FROM python:3.11-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install uv for faster package management
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+ENV PATH="/root/.local/bin:$PATH"
+
+# Copy dependency files
+COPY pyproject.toml uv.lock ./
+
+# Install dependencies using uv
+RUN /root/.local/bin/uv sync --frozen
+
+# Copy application code
+COPY . .
+
+# Expose port for Streamlit
+EXPOSE 8501
+
+# Run the Streamlit application
+CMD ["uv", "run", "streamlit", "run", "streamlit/check_malicious_package.py", "--server.port=8501", "--server.address=0.0.0.0"]
+

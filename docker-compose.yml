@@ -1,12 +1,46 @@
+version: '3.8'
+
 services:
   api:
-    build: .
-    container_name: mampdservice
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mampd-api
     ports:
       - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
     env_file:
-      - .env 
+      - .env
     volumes:
-      - .:/app
-    restart: always
+      - ./logs:/app/logs
+      - ./config.ini:/app/config.ini
+      - ./.env:/app/.env
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/docs"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  streamlit:
+    build:
+      context: .
+      dockerfile: Dockerfile.streamlit
+    container_name: mampd-streamlit
+    ports:
+      - "8501:8501"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - API_URL=http://api:8000
+    volumes:
+      - ./streamlit:/app/streamlit
+    depends_on:
+      - api
+    restart: unless-stopped
+
+networks:
+  default:
+    name: mampd-network
 

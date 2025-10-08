@@ -5,9 +5,9 @@ import os
 import re
 from pathlib import Path
 from typing import List
-from classificationService.classificationUtilities.extract_package import _unpack_archive, folder_to_json
-from classificationService.classificationUtilities.package_state import MASState
-from classificationService.classificationUtilities.schemas import Classification
+from src.utilities.extract_package import _unpack_archive, folder_to_json
+from src.utilities.package_state import MASState
+from src.utilities.schemas import Classification
 
 from agents import RunContextWrapper, function_tool
 

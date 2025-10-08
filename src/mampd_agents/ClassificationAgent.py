@@ -4,13 +4,13 @@ from src.utilities.tools import  get_functions, get_imports, get_python_script
 from src.utilities.package_state import MASState
 from src.utilities.prompts import CLASSIFIER_PROMPT
 from src.utilities.schemas import ClassificationAgentOutput
-from src.agents.classificationAgentsInterface import ClassificationAgentsInterface
+from src.mampd_agents.mampd_agent_interface import MAMPDAgentInterface
 from typing import Optional
 
 TEMPERATURE = 0.5
 
 
-class ClassificationAgent(ClassificationAgentsInterface):
+class ClassificationAgent(MAMPDAgentInterface):
     def __init__(self, 
                 state: MASState= MASState(),
                 model_name: Optional[str] = None,

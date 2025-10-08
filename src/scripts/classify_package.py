@@ -1,7 +1,7 @@
 import configparser
 import logging
 from src.scripts import setup_logging
-from src.agents.ClassifyPackagesAgents import ClassifyPackagesAgents
+from src.mampd_agents.configure_mampd_agents import MAMPDAgents
 from src.utilities.package_state import MASState
 from agents import (
     set_trace_processors,
@@ -14,7 +14,7 @@ from langsmith.wrappers import OpenAIAgentsTracingProcessor
 
 set_trace_processors([OpenAIAgentsTracingProcessor()])
 
-classify_agents = ClassifyPackagesAgents()
+classify_agents = MAMPDAgents()
 parser = configparser.ConfigParser()
 parser.read("config.ini")  # Ensure your config file is loaded
 load_dotenv()
@@ -38,8 +38,8 @@ async def create_classify_graph(state: MASState)-> dict[str, MASState | Any]:
         "classification_result": classification_result
     } # type: ignore
     
-async def classify(package_path: str, guidelines:str) -> dict[str, MASState | Any]:
+async def classify(package_path: str) -> dict[str, MASState | Any]:
     """creates the states of a classification and classifies the package."""
     logger.info(f"Starting classification for package: {package_path}")
-    state = MASState(package_location=package_path, guidelines=guidelines)
+    state = MASState(package_location=package_path)
     return await create_classify_graph(state)

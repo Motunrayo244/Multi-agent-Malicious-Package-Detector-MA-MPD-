@@ -4,7 +4,7 @@ from typing import Optional
 
 
 BASE_MODEL = MASModel()
-class ClassificationAgentsInterface:
+class MAMPDAgentInterface:
     def __init__(self, 
                 state: MASState= MASState(),
                 model_name: Optional[str] = None,
